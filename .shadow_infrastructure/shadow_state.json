@@ -1,0 +1,9 @@
+{
+  "system_id": "tesla-fsd-occupancy-stream",
+  "shadow_mode": "ACTIVE",
+  "mastermind_synced": true,
+  "telemetry": {
+    "latency_ms": 7.9,
+    "status": "HW4_NOMINAL"
+  }
+}
