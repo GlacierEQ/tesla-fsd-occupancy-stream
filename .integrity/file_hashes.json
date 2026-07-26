@@ -1,0 +1,16 @@
+{
+  "repo": "tesla-fsd-occupancy-stream",
+  "algorithm": "sha256",
+  "file_count": 9,
+  "hashes": {
+    "README.md": "b933af35f483cde6587f1c9a1edf5ef14fff4001121e8a6cbf0b5e005a2a3a92",
+    "AKOS.md": "4b55f4ab2af77f6e6b182cc30842a3e3302646c70db04dad6f3f3085f4e81fc0",
+    "AGENTS.md": "0b89720200e78b655b24bb4afc0b6b068d2f43544361f1a63651568977024b27",
+    "HELIX_STRAND.md": "87b3bd6d12f46788adb6b9f011edb24728777fb08f7a91aef8701894d97affa2",
+    "mastermind_sidecar.py": "c8903d383d2b1e7c8944d16bb54ef1f3a2a6755b65a892d079ef1ab10c9bebe2",
+    "SECURITY_AND_FLEET_OPS.md": "26141c0f07d95847d679de423ddb7bdee6f3e319d204383c89a58d6d3bb610c7",
+    "HELIX.md": "a6471732085499f7bcb43f6b07d095fc5607a839919b1bb1308fdb2e486e291a",
+    "tests/test_fsd.py": "12bca444eb4ccbcb246aca3a8c3fa6c7d031df492e8e395368d1cf4a25401ceb",
+    "src/tesla_fsd_occupancy_stream.py": "a27aa8cfda27f3143d494ef3a8e1e5889c1f58c667f2fafb578997113fedac71"
+  }
+}
