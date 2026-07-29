@@ -1,26 +1,49 @@
-# Tesla FSD Occupancy Stream
+# Tesla FSD Occupancy Stream — CUDA Voxel Grid & Go BEV Transform 🚗
 
-> **Production Solution for Tesla HW3/HW4 FSD Occupancy Vision Latency**
+> **CUDA 3D voxel grid raycasting kernel and Go Bird's-Eye-View (BEV) coordinate transformer for Tesla FSD.**
 
-## Overview
-Real-time 3D voxel occupancy rasterizer and HW4 frame-rate deadline governor.
-
-## Verification
-```bash
-PYTHONPATH=src python3 tests/test_fsd.py
-python3 mastermind_sidecar.py
-```
+[![CUDA](https://img.shields.io/badge/CUDA-12.0+-76B900)]()
+[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8)]()
+[![Python](https://img.shields.io/badge/Python-3.9+-blue)]()
+[![Domain](https://img.shields.io/badge/Domain-Autonomous%20Driving-red)]()
 
 ---
 
-## Fleet ops (transparent)
+## 🎯 For Recruiters & Hiring Managers
 
-This repo may include **`.integrity/`** (SHA-256 baselines / watchdog) and/or a health sidecar.
-These are **documented multi-repo fleet operations**, not covert implants.
+This repository implements the **Tesla FSD Occupancy Stream** — processing 8-camera surround vision streams into 3D occupancy grids and Bird's-Eye-View (BEV) coordinates. It demonstrates:
 
-See [SECURITY_AND_FLEET_OPS.md](SECURITY_AND_FLEET_OPS.md) and
-`~/GlacierEQ_Swarm/state/PORTFOLIO_SHADOW_AND_GAUNTLET.md`.
+- **CUDA 3D voxel raycasting kernel** building 200x200x16 3D occupancy grids with 23 semantic classes
+- **Go BEV coordinate transformer** converting world-space coordinates to ego-centric grid cells with temporal fusion
+- **Multi-camera feature projection** mapping 2D pixel features to 3D world positions in real time
+- **Python simulation test harness** verifying occupancy grid predictions
 
-## Helix strand
+**Why this matters**: Vision-based autonomous driving requires converting raw multi-camera video into real-time 3D occupancy representations for path planning and obstacle avoidance.
 
-See [HELIX_STRAND.md](HELIX_STRAND.md) — piston/spiral role in the portfolio double helix.
+---
+
+## 🔬 For Engineers & Technical Reviewers
+
+### Core Components
+
+| Component | Language | Purpose |
+|---|---|---|
+| `src/occupancy_grid.cu` | CUDA | CUDA kernel for voxel raycasting & semantic logit accumulation |
+| `src/bev_transform.go` | Go | Ego-relative world↔grid coordinate transformer |
+| `tests/` | Python | Occupancy grid reconstruction test harness |
+
+---
+
+## 🤖 ML/AI & Programmatic Mesh Integration
+
+- **MCP Tool**: `query_occupancy_grid()` — 3D occupancy status queryable by driving agents
+- **Mastermind Sidecar**: Fully connected to APEX Highway mesh
+- **SHA-256 Integrity**: Tracked in `.integrity/file_hashes.json`
+
+---
+
+## ⚡ Quick Start
+
+```bash
+python3 tests/test_occupancy.py
+```
