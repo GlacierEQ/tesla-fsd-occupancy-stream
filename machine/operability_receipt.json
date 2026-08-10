@@ -1,0 +1,36 @@
+{
+  "schema": "glaciereq.operability-receipt.v1",
+  "repository": "GlacierEQ/tesla-fsd-occupancy-stream",
+  "at": "2026-08-10T04:12Z",
+  "source_sha": "f9776d170bc4ff28cadd2e5d958fecec17fdd15efd130f6de4e13fb78c9e685c",
+  "entry": "scripts/operate.py",
+  "primary_output": {
+    "module": "tesla_fsd_occupancy_stream",
+    "ok": true,
+    "repository": "GlacierEQ/tesla-fsd-occupancy-stream",
+    "smoke": {
+      "args": [],
+      "content_checked": true,
+      "invoked": true,
+      "kind": "class",
+      "method": "process_camera_frame",
+      "module_local": true,
+      "name": "TeslaFSDOccupancyStream",
+      "result": {
+        "camera_count": 8,
+        "deadline_met": true,
+        "fps_achieved": 126.6,
+        "latency_ms": 7.9,
+        "status": "HW4_NOMINAL",
+        "voxel_grid_dim": [
+          128,
+          128,
+          32
+        ],
+        "voxels_processed": 524288
+      }
+    }
+  },
+  "dual_run_ok": true,
+  "result": "PASS"
+}

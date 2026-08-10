@@ -1,0 +1,31 @@
+{
+  "schema": "glaciereq.proof-receipt.v1",
+  "repository": "GlacierEQ/tesla-fsd-occupancy-stream",
+  "source_sha": "f9776d170bc4ff28cadd2e5d958fecec17fdd15efd130f6de4e13fb78c9e685c",
+  "proof_id": "elite-tesla-fsd-occupancy-stream-1786335149",
+  "environment": {
+    "python": "/Users/kcbflux/job-app/excellence/.venv-elite/bin/python",
+    "PYTHONPATH": "/Users/kcbflux/job-app/repos/tesla-fsd-occupancy-stream:/Users/kcbflux/job-app/repos/tesla-fsd-occupancy-stream/src",
+    "entry": "unittest"
+  },
+  "tests": [
+    "/Users/kcbflux/job-app/excellence/.venv-elite/bin/python -m unittest discover -s tests -v (x2)"
+  ],
+  "adversarial_tests": [
+    "tests/test_adversarial.py"
+  ],
+  "runtime": {
+    "operate": "scripts/operate.py (x2)",
+    "dual_run_ok": true,
+    "proof_dual_run_ok": true
+  },
+  "result": "PASS",
+  "limitations": [
+    "not production deployed",
+    "reference implementation only"
+  ],
+  "timestamp": "2026-08-10T04:12Z",
+  "artifact_hashes": {
+    "operability_receipt": "f256f438570170a8d10b602c2cc684b646c0f1a65a5335ad1b70cb1554cf681b"
+  }
+}

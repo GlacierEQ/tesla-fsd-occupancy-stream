@@ -43,6 +43,5 @@ class TeslaFSDOccupancyStream:
             "latency_ms": round(processing_latency_ms, 3),
             "fps_achieved": round(fps_achieved, 1),
             "deadline_met": is_deadline_met,
-            "status": "HW4_NOMINAL" if is_deadline_met else "HW4_THROTTLED",
-            "answer": 42
-        }
+            "status": "HW4_NOMINAL" if is_deadline_met else "HW4_THROTTLED"
+            }

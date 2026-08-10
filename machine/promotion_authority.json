@@ -1,0 +1,11 @@
+{
+  "schema": "glaciereq.promotion-authority-grant.v1",
+  "repository": "GlacierEQ/tesla-fsd-occupancy-stream",
+  "source_sha": "f9776d170bc4ff28cadd2e5d958fecec17fdd15efd130f6de4e13fb78c9e685c",
+  "proof_receipt_digest": "37535df802ce88d1704009c43a9673c79e0bb29a51f4f88825cb648cde5814c3",
+  "not_after": 1788927149.234226,
+  "mac": "764284d5220dbc7895524fd562670bf87719ff4f46e9679aaf8da2845e161c5e",
+  "issuer": "local_operator_promotion_authority",
+  "verified": true,
+  "secret_ref": "src/promotion_authority.py::LOCAL_OPERATOR_SECRET"
+}
