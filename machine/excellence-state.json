@@ -1,7 +1,7 @@
 {
   "schema": "glaciereq.repo-excellence-state.v1",
   "repository": "GlacierEQ/tesla-fsd-occupancy-stream",
-  "principal_state": "PROMOTED",
+  "principal_state": "FUNCTIONAL_CANDIDATE",
   "gates": {
     "IDENTITY_RESOLVED": {
       "status": "PASS",
@@ -30,13 +30,11 @@
     },
     "CENTRAL_MECHANISM_PRESENT": {
       "status": "PASS",
-      "at": "2026-08-10T06:25Z",
-      "evidence": "central mechanism in src/"
+      "evidence": "src/tesla_fsd_occupancy_stream.py + src/occupancy_integrity.py"
     },
     "DETERMINISTIC_PROOF_GREEN": {
-      "status": "PASS",
-      "at": "2026-08-10T06:25Z",
-      "evidence": "dual-run green tests"
+      "status": "PENDING_CURRENT_HEAD_CI",
+      "evidence": "current modeled occupancy and integrity extensions require exact-head workflow"
     },
     "ADVERSARIAL_SURVIVAL": {
       "status": "PASS",
@@ -55,8 +53,7 @@
     },
     "AUTHORITY_BOUND": {
       "status": "PASS",
-      "at": "2026-08-10T06:25Z",
-      "evidence": "promotion_authority.json local HMAC grant"
+      "evidence": "machine contracts set driving_authority=false and hardware_measurement=false"
     },
     "PROJECTION_TRUTH_CLOSED": {
       "status": "PASS",
@@ -176,7 +173,7 @@
   ],
   "contract_ref": "machine/target-contract.json",
   "scores_ref": "machine/excellence-scores.json",
-  "evolution_cursor": "next:canonical_position_only_if_estate_role_resolved",
+  "evolution_cursor": "exact-current-head tests then optional recorded public fixture ingestion",
   "wave": {
     "id": "ELITE-ESTATE-SCHEMA-MIGRATE-2026-08-10",
     "proof_ok": true,
@@ -188,9 +185,36 @@
     "projection_truth_closed_at": "2026-08-10T06:25Z",
     "policy": "glaciereq.repo-excellence.promotion-policy.v1"
   },
-  "state": "PROMOTED",
+  "state": "FUNCTIONAL_CANDIDATE",
   "proof_receipt": {
     "source_sha": "HYPER_VALIDATED_SHA256",
     "identity": "HYPER_VALIDATED_IDENTITY"
+  },
+  "operational_authority": false,
+  "evidence_state": "MODELED_OCCUPANCY_SYSTEM_NOT_TESLA_FSD_MEASUREMENT_OR_AUTHORITY",
+  "verified_scope": [
+    "deterministic-modeled-occupancy-workload-arithmetic",
+    "explicit-modeled-deadline-evaluation",
+    "modeled-camera-view-quorum-integrity",
+    "temporal-occupancy-discontinuity-detection",
+    "hash-bound-occupancy-integrity-receipt"
+  ],
+  "nonclaims": [
+    "no Tesla affiliation, endorsement, employment, proprietary access, FSD access, or vehicle authority",
+    "no HW3/HW4 execution or measured latency/fps result",
+    "no live camera processing, CUDA execution proof, path planning, or actuation",
+    "no live MCP or APEX integration",
+    "no production deployment, safety validation, or driving reliability claim"
+  ],
+  "current_head_extension": {
+    "mechanisms": [
+      "deterministic occupancy scenario model",
+      "temporal occupancy integrity compiler"
+    ],
+    "tests": [
+      "tests/test_fsd.py",
+      "tests/test_occupancy_integrity.py"
+    ],
+    "state": "IMPLEMENTED_CURRENT_HEAD_NATIVE_PROOF_REQUIRED"
   }
 }
