@@ -1,49 +1,65 @@
-# Tesla FSD Occupancy Stream — CUDA Voxel Grid & Go BEV Transform 🚗
+# Tesla-Style Occupancy Stream — Deterministic Simulation Study
 
-> **CUDA 3D voxel grid raycasting kernel and Go Bird's-Eye-View (BEV) coordinate transformer for Tesla FSD.**
+Independent GlacierEQ portfolio work modeling occupancy-grid workload arithmetic and temporal stream integrity for autonomous-driving-style scenarios.
 
-[![CUDA](https://img.shields.io/badge/CUDA-12.0+-76B900)]()
-[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8)]()
-[![Python](https://img.shields.io/badge/Python-3.9+-blue)]()
-[![Domain](https://img.shields.io/badge/Domain-Autonomous%20Driving-red)]()
+**Evidence state:** `MODELED_OCCUPANCY_SYSTEM_NOT_TESLA_FSD_MEASUREMENT_OR_AUTHORITY`
 
----
+This repository is not affiliated with, endorsed by, or operated by Tesla. It does not access Tesla vehicles, FSD software, camera feeds, HW3/HW4 hardware, or proprietary data.
 
-## 🎯 For Recruiters & Hiring Managers
+## Current mechanisms
 
-This repository implements the **Tesla FSD Occupancy Stream** — processing 8-camera surround vision streams into 3D occupancy grids and Bird's-Eye-View (BEV) coordinates. It demonstrates:
+### Occupancy workload model
 
-- **CUDA 3D voxel raycasting kernel** building 200x200x16 3D occupancy grids with 23 semantic classes
-- **Go BEV coordinate transformer** converting world-space coordinates to ego-centric grid cells with temporal fusion
-- **Multi-camera feature projection** mapping 2D pixel features to 3D world positions in real time
-- **Python simulation test harness** verifying occupancy grid predictions
+`src/tesla_fsd_occupancy_stream.py` computes deterministic scenario values from explicit inputs:
 
-**Why this matters**: Vision-based autonomous driving requires converting raw multi-camera video into real-time 3D occupancy representations for path planning and obstacle avoidance.
+- camera count;
+- voxel-grid dimensions;
+- modeled voxels-per-millisecond assumption;
+- modeled per-camera overhead;
+- target FPS;
+- deadline.
 
----
+The result reports modeled workload size, modeled latency, a modeled FPS upper bound, and whether the arithmetic satisfies the supplied deadline.
 
-## 🔬 For Engineers & Technical Reviewers
+Every result carries:
 
-### Core Components
+`MODELED_OCCUPANCY_SCENARIO_NOT_TESLA_FSD_MEASUREMENT`
 
-| Component | Language | Purpose |
-|---|---|---|
-| `src/occupancy_grid.cu` | CUDA | CUDA kernel for voxel raycasting & semantic logit accumulation |
-| `src/bev_transform.go` | Go | Ego-relative world↔grid coordinate transformer |
-| `tests/` | Python | Occupancy grid reconstruction test harness |
+The implementation does not use wall-clock timing and does not label arithmetic as HW4 performance.
 
----
+### Temporal occupancy integrity
 
-## 🤖 ML/AI & Programmatic Mesh Integration
+`src/occupancy_integrity.py` evaluates a caller-supplied sequence of modeled occupancy frames.
 
-- **MCP Tool**: `query_occupancy_grid()` — 3D occupancy status queryable by driving agents
-- **Mastermind Sidecar**: Fully connected to APEX Highway mesh
-- **SHA-256 Integrity**: Tracked in `.integrity/file_hashes.json`
+It fails closed on duplicate frame identities and non-monotonic timestamps, and surfaces review state when:
 
----
+- camera-view count drops below the declared quorum; or
+- occupancy fraction changes more than the declared temporal threshold.
 
-## ⚡ Quick Start
+The result preserves issue codes and emits a deterministic SHA-256 receipt.
+
+`MODELED_OCCUPANCY_INTEGRITY_NOT_TESLA_DRIVING_AUTHORITY`
+
+No path planning, steering, braking, perception inference, or vehicle command occurs.
+
+## Proof surfaces
+
+| Surface | Purpose |
+|---|---|
+| `src/tesla_fsd_occupancy_stream.py` | deterministic occupancy workload/deadline scenario |
+| `src/occupancy_integrity.py` | temporal sequence and view-quorum integrity |
+| `tests/test_fsd.py` | deterministic scenario, deadline, input refusal |
+| `tests/test_occupancy_integrity.py` | view loss, discontinuity, identity/time refusal |
+| `.github/workflows/tests.yml` | repository-native unittest workflow |
+
+## Native proof
 
 ```bash
-python3 tests/test_occupancy.py
+PYTHONPATH=src python -m unittest discover -s tests -v
 ```
+
+## Evidence boundary
+
+Current source does **not** establish CUDA execution, Tesla FSD integration, HW3/HW4 performance, camera perception, multi-camera projection, driving safety, vehicle actuation, production deployment, or Tesla affiliation.
+
+The transferable engineering value is deterministic workload modeling plus explicit temporal integrity/refusal semantics around a simulation-bound occupancy stream.
