@@ -1,1 +1,17 @@
-{"capabilities": ["hyper-scaling"]}
+{
+  "schema": "glaciereq.bounded-capabilities.v1",
+  "capabilities": [
+    "deterministic-modeled-occupancy-workload-arithmetic",
+    "explicit-modeled-deadline-evaluation",
+    "modeled-camera-view-quorum-integrity",
+    "temporal-occupancy-discontinuity-detection",
+    "hash-bound-occupancy-integrity-receipt"
+  ],
+  "evidence_state": "MODELED_OCCUPANCY_SYSTEM_NOT_TESLA_FSD_MEASUREMENT_OR_AUTHORITY",
+  "operational_authority": false,
+  "tesla_vehicle_access": false,
+  "camera_feed_access": false,
+  "cuda_execution_proven": false,
+  "hardware_measurement": false,
+  "driving_authority": false
+}
