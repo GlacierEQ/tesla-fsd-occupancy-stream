@@ -1,47 +1,85 @@
-"""
-Tesla FSD Occupancy Stream — Production Solution for Real-Time HW3/HW4 Vision Latency
+"""Deterministic occupancy-stream scenario arithmetic.
 
-Addresses Tesla FSD multi-camera Occupancy Network latency & 3D voxel streaming bottlenecks.
-Key Innovations:
-  1. Low-Latency Voxel Rasterizer: Processes 8-camera 360° video streams under 8.2ms per frame.
-  2. Dynamic HW4 Latency Governor: Prevents frame-drop cascades during high-complexity traffic intersections.
+This independent portfolio model does not process Tesla camera feeds, execute on
+HW3/HW4, run CUDA, or measure vehicle latency. All timing values are derived
+from explicit caller-visible modeling assumptions.
 """
+from __future__ import annotations
 
-from typing import List, Dict, Any, Tuple
 import math
-import time
+from typing import Any
+
+EVIDENCE_STATE = "MODELED_OCCUPANCY_SCENARIO_NOT_TESLA_FSD_MEASUREMENT"
+
+
+def _positive_finite(name: str, value: object) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"{name} must be a positive finite number")
+    numeric=float(value)
+    if not math.isfinite(numeric) or numeric <= 0:
+        raise ValueError(f"{name} must be a positive finite number")
+    return numeric
+
 
 class TeslaFSDOccupancyStream:
-    """Manages real-time 3D occupancy voxel rasterization and frame-rate deadlines for Tesla HW3/HW4."""
+    """Model voxel-grid work and deadline arithmetic from explicit assumptions."""
 
-    def __init__(self, target_fps: float = 36.0, max_latency_ms: float = 10.0):
-        self.target_fps = target_fps
-        self.max_latency_ms = max_latency_ms
+    def __init__(
+        self,
+        target_fps: float = 36.0,
+        max_latency_ms: float = 10.0,
+        modeled_voxels_per_ms: float = 349525.3333333333,
+        modeled_camera_overhead_ms: float = 0.8,
+    ) -> None:
+        self.target_fps=_positive_finite("target_fps",target_fps)
+        self.max_latency_ms=_positive_finite("max_latency_ms",max_latency_ms)
+        self.modeled_voxels_per_ms=_positive_finite(
+            "modeled_voxels_per_ms",modeled_voxels_per_ms
+        )
+        if (
+            isinstance(modeled_camera_overhead_ms,bool)
+            or not isinstance(modeled_camera_overhead_ms,(int,float))
+            or not math.isfinite(float(modeled_camera_overhead_ms))
+            or float(modeled_camera_overhead_ms) < 0
+        ):
+            raise ValueError("modeled_camera_overhead_ms must be finite and non-negative")
+        self.modeled_camera_overhead_ms=float(modeled_camera_overhead_ms)
 
     def process_camera_frame(
-        self, camera_count: int = 8, voxel_grid_dim: Tuple[int, int, int] = (128, 128, 32)
-    ) -> Dict[str, Any]:
-        """
-        Rasterizes 8-camera input into 3D voxel space under strict <10ms deadline.
-        """
-        start_time = time.perf_counter()
+        self,
+        camera_count: int = 8,
+        voxel_grid_dim: tuple[int,int,int] = (128,128,32),
+    ) -> dict[str,Any]:
+        """Return modeled workload/deadline values; no camera or vehicle is contacted."""
 
-        voxels_total = voxel_grid_dim[0] * voxel_grid_dim[1] * voxel_grid_dim[2]
-        
-        # Simulate processing time based on HW4 Neural Processing Unit (NPU) throughput
-        processing_latency_ms = (voxels_total / 524288) * 1.5 + (camera_count * 0.8)
+        if isinstance(camera_count,bool) or not isinstance(camera_count,int) or camera_count < 1:
+            raise ValueError("camera_count must be a positive integer")
+        if (
+            not isinstance(voxel_grid_dim,tuple)
+            or len(voxel_grid_dim) != 3
+            or any(isinstance(v,bool) or not isinstance(v,int) or v < 1 for v in voxel_grid_dim)
+        ):
+            raise ValueError("voxel_grid_dim must contain three positive integers")
 
-        is_deadline_met = processing_latency_ms <= self.max_latency_ms
-        fps_achieved = 1000.0 / max(processing_latency_ms, 1.0)
-
-        elapsed_ms = (time.perf_counter() - start_time) * 1000.0
+        voxels_total=voxel_grid_dim[0]*voxel_grid_dim[1]*voxel_grid_dim[2]
+        modeled_latency_ms=(
+            voxels_total/self.modeled_voxels_per_ms
+            + camera_count*self.modeled_camera_overhead_ms
+        )
+        deadline_met=modeled_latency_ms <= self.max_latency_ms
+        modeled_fps_upper_bound=1000.0/modeled_latency_ms
 
         return {
-            "camera_count": camera_count,
-            "voxel_grid_dim": voxel_grid_dim,
-            "voxels_processed": voxels_total,
-            "latency_ms": round(processing_latency_ms, 3),
-            "fps_achieved": round(fps_achieved, 1),
-            "deadline_met": is_deadline_met,
-            "status": "HW4_NOMINAL" if is_deadline_met else "HW4_THROTTLED"
-            }
+            "camera_count":camera_count,
+            "voxel_grid_dim":voxel_grid_dim,
+            "voxels_modeled":voxels_total,
+            "latency_ms":round(modeled_latency_ms,6),
+            "modeled_fps_upper_bound":round(modeled_fps_upper_bound,3),
+            "target_fps":self.target_fps,
+            "deadline_met":deadline_met,
+            "status":"MODELED_DEADLINE_MET" if deadline_met else "MODELED_DEADLINE_MISSED",
+            "evidence_state":EVIDENCE_STATE,
+            "hardware_measurement":False,
+            "vehicle_authority":False,
+            "camera_feed_access":False,
+        }
