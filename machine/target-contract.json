@@ -2,21 +2,27 @@
   "schema": "glaciereq.repo-target-contract.v1",
   "identity": {
     "repository_id": "GlacierEQ/tesla-fsd-occupancy-stream",
-    "family": "elite-estate"
+    "family": "Tesla"
   },
   "current": {
-    "state": "PROMOTED",
+    "state": "FUNCTIONAL_CANDIDATE",
     "implemented": true,
-    "tested": true,
+    "tested_in_source": true,
     "deployed": false
   },
-  "nonclaims": [
-    "no employer affiliation",
-    "no production deployment without receipt"
+  "verified_scope": [
+    "deterministic modeled voxel workload and deadline arithmetic",
+    "explicit caller-visible throughput and camera-overhead assumptions",
+    "camera-view quorum integrity checks",
+    "temporal occupancy-fraction discontinuity detection",
+    "hash-bound non-operational integrity receipt"
   ],
-  "donor_plan": {
-    "mode": "none",
-    "donors": []
-  },
-  "frozen_at": "2026-08-10T04:12Z"
+  "nonclaims": [
+    "no Tesla affiliation, endorsement, employment, proprietary access, FSD access, or vehicle authority",
+    "no HW3/HW4 execution or measured latency/fps result",
+    "no live camera processing, CUDA execution proof, path planning, or actuation",
+    "no live MCP or APEX integration",
+    "no production deployment, safety validation, or driving reliability claim"
+  ],
+  "next_gate": "exact-current-head unittest workflow for modeled occupancy and integrity compiler"
 }
